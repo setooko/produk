@@ -1,1 +1,1 @@
-### Chalia Grocery - simpleCart Grocery jekyll onlineshop template
+### Setoko Grocery - simpleCart Grocery
