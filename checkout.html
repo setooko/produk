@@ -135,10 +135,23 @@ layout: checkout
       data-callback="order"
       data-size="invisible">
 </div>
-<script>grecaptcha.execute();</script>
+<<div class="g-recaptcha"
+     data-sitekey="{{site.sitekey}}"
+     data-callback="onSubmit"
+     data-size="invisible">
 <script>
-function waConfirm() {
-  // Ambil data keranjang dari simpleCart
+function onSubmit(token) {
+  // setelah reCAPTCHA sukses, baru kita save data + redirect
+  waConfirm();
+}
+ <script>
+  // Bind klik tombol
+  document.getElementById('order').addEventListener('click', function(e) {
+    e.preventDefault();        // cegah default (plugin WhatsApp)
+    grecaptcha.execute();      // jalankan reCAPTCHA
+  });
+</script>
+  <script>
   const cartItems = simpleCart.items().map(item => ({
     name: item.get('name'),
     price: parseInt(item.get('price')),
