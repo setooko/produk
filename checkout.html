@@ -64,6 +64,16 @@ layout: checkout
           </select>
       </section>
 </div>
+<div class="form-group mt-3">
+  <label class="control-label">Pilih Bank Pembayaran</label>
+  <select id="bank-pilihan" class="form-control border-form-control">
+    <option value="BCA">BCA</option>
+    <option value="Mandiri">Mandiri</option>
+    <option value="BRI">BRI</option>
+    <option value="BNI">BNI</option>
+    <option value="CIMB">CIMB</option>
+  </select>
+</div>
 
 <div class="row">
 <section class="col-sm-12">
@@ -128,6 +138,31 @@ layout: checkout
 <script>grecaptcha.execute();</script>
 <script>
 function waConfirm() {
-  window.location.href = "/pembayaran.html"; 
+  // Ambil data keranjang dari simpleCart
+  const cartItems = simpleCart.items().map(item => ({
+    name: item.get('name'),
+    price: parseInt(item.get('price')),
+    qty: parseInt(item.get('quantity'))
+  }));
+
+  // Validasi: kalau keranjang kosong, kasih alert dan batal
+  if (cartItems.length === 0) {
+    alert("Keranjang kosong. Silakan tambahkan produk terlebih dahulu.");
+    return;
+  }
+
+  // Ambil pilihan bank dari dropdown
+  const selectedBank = document.getElementById("bank-pilihan").value;
+
+  // Ongkir (bisa diubah kalau mau dinamis)
+  const ongkir = 8000;
+
+  // Simpan semua data ke localStorage
+  localStorage.setItem("cart", JSON.stringify(cartItems));
+  localStorage.setItem("bank", selectedBank);
+  localStorage.setItem("ongkir", ongkir.toString());
+
+  // Pindah ke halaman pembayaran
+  window.location.href = "/pembayaran.html";
 }
 </script>
